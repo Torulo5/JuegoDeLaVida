@@ -39,7 +39,7 @@ public class GameController {
 		map.put("CHECK",gModel.getPointsNeededToCheck());
 		map.put("NEXTALIVE",gModel.getNextPointsAlive());
 		for (NextStateEvent listeners : this.nextStatelisteners) {
-			listeners.newPointEvent(map);
+			listeners.nextStateEvent(map);
 		}
 	}
 	
