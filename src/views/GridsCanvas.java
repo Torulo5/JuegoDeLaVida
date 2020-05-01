@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JPanel;
-import controllers.GameController;
+import javax.swing.SwingUtilities;
 
+import controllers.GameController;
 
 public class GridsCanvas extends JPanel {
 
@@ -30,7 +31,7 @@ public class GridsCanvas extends JPanel {
 	private GameController gController = null;
 
 	private final boolean DEBUG = false;
-	
+
 	private boolean paintNextPointsAlive = true;
 	private boolean paintNextPointsNeededToCheck = true;
 	private boolean setNewPoints = true;
@@ -50,15 +51,20 @@ public class GridsCanvas extends JPanel {
 		this.pointsNeededToCheck = new ArrayList<Point>();
 
 		addMouseListener(new MouseAdapter() {
-
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(setNewPoints) {
-					int x = e.getX();
-					int y = e.getY();
-					Point newPoint = new Point(x / rowHt, y / rowWid);
+				if (!setNewPoints) 
+					return;
+				
+				int x = e.getX();
+				int y = e.getY();
+				Point newPoint = new Point(x / rowHt, y / rowWid);
+				
+				if (SwingUtilities.isLeftMouseButton(e)) {
 					gController.saveAlivePoint(newPoint);
 					repaint();
+				} else if(SwingUtilities.isRightMouseButton(e)) {
+					System.out.println("d");
 				}
 			}
 		});
@@ -80,12 +86,12 @@ public class GridsCanvas extends JPanel {
 
 		paintLines(g);
 
-		if(paintNextPointsNeededToCheck)
+		if (paintNextPointsNeededToCheck)
 			paintRectangles(g, this.pointsNeededToCheck, Color.green);
-		
+
 		paintRectangles(g, this.pointsAlive, Color.RED);
-		
-		if(paintNextPointsAlive)
+
+		if (paintNextPointsAlive)
 			paintOvals(g, this.nextPointsAlive, Color.blue);
 
 	}
@@ -169,7 +175,7 @@ public class GridsCanvas extends JPanel {
 		this.paintNextPointsNeededToCheck = paintNextPointsNeededToCheck;
 		this.repaint();
 	}
-	
+
 	public void setSetNewPoints(boolean setNewPoints) {
 		this.setNewPoints = setNewPoints;
 	}
