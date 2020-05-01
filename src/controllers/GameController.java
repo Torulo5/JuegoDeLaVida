@@ -32,24 +32,6 @@ public class GameController {
 		}
 	}
 
-	
-	public ArrayList<Point> getPointsToPaint(int tipo){
-		ArrayList<Point> auxPoints = null;
-		switch (tipo) {
-		  case 1:
-			  auxPoints = gModel.getPoints();
-		    break;
-		  case 2:
-			  auxPoints = gModel.getPointsNeededToCheck();
-		    break;
-		  case 3:
-			  auxPoints = gModel.getNextPointsAlive();
-		    break;
-		}
-		System.out.println("-->" + tipo + ":" + auxPoints.size());
-		return auxPoints;
-	}
-	
 	public synchronized void nextTurn() {
 		gModel.setNextStatus();
 		Map<String, List<Point>> map = new HashMap<String, List<Point>>();
