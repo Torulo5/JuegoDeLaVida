@@ -1,4 +1,5 @@
 package views;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -15,7 +16,7 @@ import javax.swing.JPanel;
 import controllers.GameController;
 import controllers.NextStateEvent;
 
-public class GridsCanvas extends JPanel implements NextStateEvent{
+public class GridsCanvas extends JPanel implements NextStateEvent {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,12 +32,11 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 	private GameController gController = null;
 
 	private final boolean DEBUG = false;
-	
-	//auxiliar arrays to save currentState to paint
+
+	// auxiliar arrays to save currentState to paint
 	private ArrayList<Point> pointsAlive;
 	private ArrayList<Point> nextPointsAlive;
 	private ArrayList<Point> pointsNeededToCheck;
-
 
 	GridsCanvas(int w, int h, int ladoCuadrado) {
 		setSize(this.width = w, this.height = h);
@@ -46,7 +46,7 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 		this.pointsAlive = new ArrayList<Point>();
 		this.nextPointsAlive = new ArrayList<Point>();
 		this.pointsNeededToCheck = new ArrayList<Point>();
-		
+
 		addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -77,10 +77,10 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 		this.cols = (double) this.width / this.rowWid;
 
 		paintLines(g);
-		
-		paintRectangles(g,this.pointsNeededToCheck,Color.green);	
-		paintRectangles(g,this.pointsAlive,Color.RED);
-		paintOvals(g,this.nextPointsAlive,Color.blue);
+
+		paintRectangles(g, this.pointsNeededToCheck, Color.green);
+		paintRectangles(g, this.pointsAlive, Color.RED);
+		paintOvals(g, this.nextPointsAlive, Color.blue);
 
 	}
 
@@ -97,7 +97,7 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 			g2d.drawLine(i * this.rowWid, 0, i * this.rowWid, this.height);
 	}
 
-	private void paintRectangles(Graphics g,ArrayList<Point> pointsAlive, Color color) {
+	private void paintRectangles(Graphics g, ArrayList<Point> pointsAlive, Color color) {
 
 		int strokeSpacer = 1;
 		if (this.stroke != 1)
@@ -112,13 +112,12 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 				System.out.println("-------------------------------------------------------------");
 			}
 			g.setColor(color);
-			g.fillRect(point.x * this.rowHt + strokeSpacer, point.y * this.rowWid + strokeSpacer, this.rowHt - this.stroke,
-					this.rowWid - this.stroke);
+			g.fillRect(point.x * this.rowHt + strokeSpacer, point.y * this.rowWid + strokeSpacer,
+					this.rowHt - this.stroke, this.rowWid - this.stroke);
 		}
 	}
-	
-	private void paintOvals(Graphics g,ArrayList<Point> pointsAlive, Color color) {
 
+	private void paintOvals(Graphics g, ArrayList<Point> pointsAlive, Color color) {
 
 		for (Point point : pointsAlive) {
 			if (DEBUG) {
@@ -128,50 +127,48 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 				System.out.println("-------------------------------------------------------------");
 			}
 			g.setColor(color);
-			g.fillOval(point.x * this.rowHt + Math.round((float) this.rowHt / 4), point.y * this.rowWid + Math.round((float) this.rowWid / 4), 10, 10);
+			g.fillOval(point.x * this.rowHt + Math.round((float) this.rowHt / 4),
+					point.y * this.rowWid + Math.round((float) this.rowWid / 4), 10, 10);
 
 		}
 	}
 
 	@Override
 	public void nextStateEvent(Map<String, List<Point>> newState) {
-		this.pointsAlive.clear();
-		List<Point> pointsAlive = newState.get("ALIVE");
-		for(Point point : pointsAlive) {
-			this.pointsAlive.add(point);
-		}
-		this.pointsNeededToCheck.clear();
-		List<Point> pointsNeededToCheck = newState.get("CHECK");
-		for(Point point : pointsNeededToCheck) {
-			this.pointsNeededToCheck.add(point);
-		}
-		this.nextPointsAlive.clear();
-		List<Point> nextPointsAlive = newState.get("NEXTALIVE");
-		for(Point point : nextPointsAlive) {
-			this.nextPointsAlive.add(point);
-		}
+		resetArray("ALIVE",newState);
+		resetArray("CHECK",newState);
+		resetArray("NEXTALIVE",newState);
 		this.repaint();
 	}
 
 	@Override
 	public void newPointEvent(Map<String, List<Point>> newState) {
 		this.pointsAlive.clear();
-		List<Point> pointsAlive = newState.get("ALIVE");
-		for(Point point : pointsAlive) {
-			this.pointsAlive.add(point);
-		}
-		this.pointsNeededToCheck.clear();
-		List<Point> pointsNeededToCheck = newState.get("CHECK");
-		for(Point point : pointsNeededToCheck) {
-			this.pointsNeededToCheck.add(point);
-		}
-		this.nextPointsAlive.clear();
-		List<Point> nextPointsAlive = newState.get("NEXTALIVE");
-		for(Point point : nextPointsAlive) {
-			this.nextPointsAlive.add(point);
-		}
+		resetArray("ALIVE",newState);
+		resetArray("CHECK",newState);
+		resetArray("NEXTALIVE",newState);
 		this.repaint();
 	}
-	
+
+	private void resetArray(String array, Map<String, List<Point>> newState) {
+		List<Point> auxArray = null;
+		switch (array) {
+		case "ALIVE":
+			auxArray = this.pointsAlive;
+			break;
+		case "CHECK":
+			auxArray = this.pointsNeededToCheck;
+			break;
+		case "NEXTALIVE":
+			auxArray = this.nextPointsAlive;
+			break;
+		}
+
+		auxArray.clear();
+		List<Point> arrayToCopy = newState.get(array);
+		for (Point point : arrayToCopy) {
+			auxArray.add(point);
+		}
+	}
 
 }
