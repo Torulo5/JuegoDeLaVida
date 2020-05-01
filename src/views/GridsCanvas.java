@@ -13,7 +13,7 @@ import java.util.Map;
 import javax.swing.JPanel;
 
 import controllers.GameController;
-import models.NextStateEvent;
+import controllers.NextStateEvent;
 
 public class GridsCanvas extends JPanel implements NextStateEvent{
 
