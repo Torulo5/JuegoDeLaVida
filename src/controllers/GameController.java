@@ -24,22 +24,24 @@ public class GameController {
 	public void saveAlivePoint(Point alivePoint) {
 		gModel.addNewPoint(alivePoint);
 		Map<String, List<Point>> map = new HashMap<String, List<Point>>();
-		map.put("ALIVE",gModel.getPoints());
+		List<Point> points = gModel.getPoints();
+		map.put("ALIVE",points);
 		map.put("CHECK",gModel.getPointsNeededToCheck());
 		map.put("NEXTALIVE",gModel.getNextPointsAlive());
 		for (NextStateEvent listeners : this.nextStatelisteners) {
-			listeners.newPointEvent(map);
+			listeners.newPointEvent(map,points.size());
 		}
 	}
 
 	public synchronized void nextTurn() {
 		gModel.setNextStatus();
 		Map<String, List<Point>> map = new HashMap<String, List<Point>>();
-		map.put("ALIVE",gModel.getPoints());
+		List<Point> points = gModel.getPoints();
+		map.put("ALIVE",points);
 		map.put("CHECK",gModel.getPointsNeededToCheck());
 		map.put("NEXTALIVE",gModel.getNextPointsAlive());
 		for (NextStateEvent listeners : this.nextStatelisteners) {
-			listeners.nextStateEvent(map);
+			listeners.nextStateEvent(map,gModel.getSteps(),points.size());
 		}
 	}
 	

@@ -5,6 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface NextStateEvent {
-	public void nextStateEvent(Map<String, List<Point>> newState);
-	public void newPointEvent(Map<String, List<Point>> newState);
+	public void nextStateEvent(Map<String, List<Point>> newState, int stept, int points);
+	public void newPointEvent(Map<String, List<Point>> newState, int points);
 }

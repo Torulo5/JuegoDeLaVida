@@ -44,4 +44,9 @@ public class GameModel {
 	public void clearPoints() {
 		gameState.calculateNextStep();
 	}
+
+	public int getSteps() {
+		return steps;
+	}
+
 }

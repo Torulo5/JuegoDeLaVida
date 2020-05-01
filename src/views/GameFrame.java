@@ -28,19 +28,24 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 
 	private GameController gController = null;
 	private GridsCanvas grindCanvas = null;
-	private JLabel labelEstado = null;
 	private JMenuBar menuBar = null;
 	private JMenu mnConfiguracion = null;
 	private JMenuItem mntmVisualizacion = null;
 
+	private JLabel labelEstado = null;
+	private JLabel labelPuntos = null;
+	
 	public GameFrame(GameController gController) {
 		this.gController = gController;
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 		
-		labelEstado = new JLabel("Steps: ");
+		labelEstado = new JLabel("Steps: 0");
 		panel.add(labelEstado);
+		
+		labelPuntos = new JLabel("Puntos: 0");
+		panel.add(labelPuntos);
 
 		grindCanvas = new GridsCanvas(200, 200, 20);
 		grindCanvas.setgController(this.gController);
@@ -65,18 +70,21 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 		});
 	}
 	@Override
-	public void nextStateEvent(Map<String, List<Point>> newState) {
+	public void nextStateEvent(Map<String, List<Point>> newState, int stept, int points) {
 		grindCanvas.resetArray("ALIVE",newState);
 		grindCanvas.resetArray("CHECK",newState);
 		grindCanvas.resetArray("NEXTALIVE",newState);
+		labelEstado.setText("Steps: " + stept);
+		labelPuntos.setText("Points: " + points);
 		this.repaint();
 	}
 
 	@Override
-	public void newPointEvent(Map<String, List<Point>> newState) {
+	public void newPointEvent(Map<String, List<Point>> newState, int points) {
 		grindCanvas.resetArray("ALIVE",newState);
 		grindCanvas.resetArray("CHECK",newState);
 		grindCanvas.resetArray("NEXTALIVE",newState);
+		labelPuntos.setText("Points: " + points);
 		this.repaint();
 	}
 
