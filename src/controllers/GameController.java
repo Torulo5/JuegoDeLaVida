@@ -1,7 +1,10 @@
 package controllers;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import models.GameModel;
 import models.NextStateEvent;
 
@@ -9,9 +12,7 @@ import models.NextStateEvent;
 public class GameController {
 	
 	private GameModel gModel = null; 
-	private int steps = 0;
 	
-
 	private List<NextStateEvent> nextStatelisteners = null;
 	
 
@@ -22,7 +23,14 @@ public class GameController {
 	}
 	
 	public void saveAlivePoint(Point alivePoint) {
-		gModel.setAlivePoint(alivePoint);
+		gModel.addNewPoint(alivePoint);
+		Map<String, List<Point>> map = new HashMap<String, List<Point>>();
+		map.put("ALIVE",gModel.getPoints());
+		map.put("CHECK",gModel.getPointsNeededToCheck());
+		map.put("NEXTALIVE",gModel.getNextPointsAlive());
+		for (NextStateEvent listeners : this.nextStatelisteners) {
+			listeners.newPointEvent(map);
+		}
 	}
 
 	
@@ -44,12 +52,17 @@ public class GameController {
 	}
 	
 	public synchronized void nextTurn() {
-		steps++;
 		gModel.setNextStatus();
+		Map<String, List<Point>> map = new HashMap<String, List<Point>>();
+		map.put("ALIVE",gModel.getPoints());
+		map.put("CHECK",gModel.getPointsNeededToCheck());
+		map.put("NEXTALIVE",gModel.getNextPointsAlive());
 		for (NextStateEvent listeners : this.nextStatelisteners) {
-			listeners.nextStateEvent("");
+			listeners.newPointEvent(map);
 		}
-		System.out.println(steps);
+		for (NextStateEvent listeners : this.nextStatelisteners) {
+			listeners.nextStateEvent(map);
+		}
 		
 	}
 	

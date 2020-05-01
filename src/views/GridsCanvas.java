@@ -7,6 +7,8 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
@@ -76,14 +78,9 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 
 		paintLines(g);
 		
-		ArrayList<Point> pointstoCheck = this.gController.getPointsToPaint(2);
-		paintRectangles(g,pointstoCheck,Color.green);
-		
-		ArrayList<Point> pointsAlive = this.gController.getPointsToPaint(1);
-		paintRectangles(g,pointsAlive,Color.RED);
-		
-		ArrayList<Point> nextsPointsAlive = this.gController.getPointsToPaint(3);
-		paintOvals(g,nextsPointsAlive,Color.blue);
+		paintRectangles(g,this.pointsNeededToCheck,Color.green);	
+		paintRectangles(g,this.pointsAlive,Color.RED);
+		paintOvals(g,this.nextPointsAlive,Color.blue);
 
 	}
 
@@ -137,8 +134,44 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 	}
 
 	@Override
-	public void nextStateEvent(String command) {
+	public void nextStateEvent(Map<String, List<Point>> newState) {
+		this.pointsAlive.clear();
+		List<Point> pointsAlive = newState.get("ALIVE");
+		for(Point point : pointsAlive) {
+			this.pointsAlive.add(point);
+		}
+		this.pointsNeededToCheck.clear();
+		List<Point> pointsNeededToCheck = newState.get("CHECK");
+		for(Point point : pointsNeededToCheck) {
+			this.pointsNeededToCheck.add(point);
+		}
+		this.nextPointsAlive.clear();
+		List<Point> nextPointsAlive = newState.get("NEXTALIVE");
+		for(Point point : nextPointsAlive) {
+			this.nextPointsAlive.add(point);
+		}
 		this.repaint();
 	}
+
+	@Override
+	public void newPointEvent(Map<String, List<Point>> newState) {
+		this.pointsAlive.clear();
+		List<Point> pointsAlive = newState.get("ALIVE");
+		for(Point point : pointsAlive) {
+			this.pointsAlive.add(point);
+		}
+		this.pointsNeededToCheck.clear();
+		List<Point> pointsNeededToCheck = newState.get("CHECK");
+		for(Point point : pointsNeededToCheck) {
+			this.pointsNeededToCheck.add(point);
+		}
+		this.nextPointsAlive.clear();
+		List<Point> nextPointsAlive = newState.get("NEXTALIVE");
+		for(Point point : nextPointsAlive) {
+			this.nextPointsAlive.add(point);
+		}
+		this.repaint();
+	}
+	
 
 }
