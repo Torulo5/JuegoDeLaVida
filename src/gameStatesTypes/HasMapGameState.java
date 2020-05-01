@@ -63,8 +63,9 @@ public class HasMapGameState implements GameState {
 
 	@Override
 	public void clearPoints() {
-		// TODO Auto-generated method stub
-		
+		pointsAlive.clear();
+		pointsNeededToCheck.clear();
+		nextPointsAlive.clear();	
 	}
 		
 	public void calculateNextPointsAlive() {
