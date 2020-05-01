@@ -15,12 +15,19 @@ import controllers.NextStateEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Point;
 
 import javax.swing.JLabel;
+import javax.swing.JToggleButton;
+import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 
@@ -30,7 +37,6 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 	private GridsCanvas grindCanvas = null;
 	private JMenuBar menuBar = null;
 	private JMenu mnConfiguracion = null;
-	private JMenuItem mntmVisualizacion = null;
 
 	private JLabel labelEstado = null;
 	private JLabel labelPuntos = null;
@@ -59,8 +65,30 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 		mnConfiguracion = new JMenu("Configuracion");
 		menuBar.add(mnConfiguracion);
 		
-		mntmVisualizacion = new JMenuItem("Visualizacion");
-		mnConfiguracion.add(mntmVisualizacion);
+		JMenu mnVisualizacion = new JMenu("Visualizacion");
+		mnConfiguracion.add(mnVisualizacion);
+		
+		JCheckBox chckbxPointtocheck = new JCheckBox("PointsToCheck");
+		chckbxPointtocheck.addActionListener ( new ActionListener() {
+		      public void actionPerformed(ActionEvent actionEvent) {
+		          AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+		          boolean selected = abstractButton.getModel().isSelected();
+		          grindCanvas.setPaintNextPointsNeededToCheck(selected);
+		        }
+		});
+		chckbxPointtocheck.setSelected(true);
+		mnVisualizacion.add(chckbxPointtocheck);
+		
+		JCheckBox chckbxNextpoints = new JCheckBox("NextPoints");
+		chckbxNextpoints.addActionListener ( new ActionListener() {
+		      public void actionPerformed(ActionEvent actionEvent) {
+		          AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+		          boolean selected = abstractButton.getModel().isSelected();
+		          grindCanvas.setPaintNextPointsAlive(selected);
+		        }
+		});
+		chckbxNextpoints.setSelected(true);
+		mnVisualizacion.add(chckbxNextpoints);
 		
 		this.addWindowListener(new WindowAdapter() {
 			@Override

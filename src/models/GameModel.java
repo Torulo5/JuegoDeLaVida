@@ -32,17 +32,17 @@ public class GameModel {
 	}
 
 	public void addNewPoint(Point alivePoint) {
-		gameState.addNewPoint(alivePoint);
+		this.gameState.addNewPoint(alivePoint);
 	}
 	
 	public void setNextStatus() {
-		steps++;
-		gameState.calculateNextStep();
-		System.out.println(steps);
+		this.steps++;
+		this.gameState.calculateNextStep();
 	}
 	
 	public void clearPoints() {
-		gameState.calculateNextStep();
+		this.steps = 0;
+		this.gameState.clearPoints();
 	}
 
 	public int getSteps() {

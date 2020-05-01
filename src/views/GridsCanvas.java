@@ -30,6 +30,9 @@ public class GridsCanvas extends JPanel {
 	private GameController gController = null;
 
 	private final boolean DEBUG = false;
+	
+	private boolean paintNextPointsAlive = true;
+	private boolean paintNextPointsNeededToCheck = true;
 
 	// auxiliar arrays to save currentState to paint
 	private ArrayList<Point> pointsAlive;
@@ -76,9 +79,13 @@ public class GridsCanvas extends JPanel {
 
 		paintLines(g);
 
-		paintRectangles(g, this.pointsNeededToCheck, Color.green);
+		if(paintNextPointsNeededToCheck)
+			paintRectangles(g, this.pointsNeededToCheck, Color.green);
+		
 		paintRectangles(g, this.pointsAlive, Color.RED);
-		paintOvals(g, this.nextPointsAlive, Color.blue);
+		
+		if(paintNextPointsAlive)
+			paintOvals(g, this.nextPointsAlive, Color.blue);
 
 	}
 
@@ -150,6 +157,16 @@ public class GridsCanvas extends JPanel {
 		for (Point point : arrayToCopy) {
 			auxArray.add(point);
 		}
+	}
+
+	public void setPaintNextPointsAlive(boolean paintNextPointsAlive) {
+		this.paintNextPointsAlive = paintNextPointsAlive;
+		this.repaint();
+	}
+
+	public void setPaintNextPointsNeededToCheck(boolean paintNextPointsNeededToCheck) {
+		this.paintNextPointsNeededToCheck = paintNextPointsNeededToCheck;
+		this.repaint();
 	}
 
 }
