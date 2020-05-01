@@ -41,10 +41,6 @@ public class GameController {
 		for (NextStateEvent listeners : this.nextStatelisteners) {
 			listeners.newPointEvent(map);
 		}
-		for (NextStateEvent listeners : this.nextStatelisteners) {
-			listeners.nextStateEvent(map);
-		}
-		
 	}
 	
 	public void clearGame() {
