@@ -33,6 +33,7 @@ public class GridsCanvas extends JPanel {
 	
 	private boolean paintNextPointsAlive = true;
 	private boolean paintNextPointsNeededToCheck = true;
+	private boolean setNewPoints = true;
 
 	// auxiliar arrays to save currentState to paint
 	private ArrayList<Point> pointsAlive;
@@ -52,13 +53,13 @@ public class GridsCanvas extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				int x = e.getX();
-				int y = e.getY();
-
-				Point newPoint = new Point(x / rowHt, y / rowWid);
-				gController.saveAlivePoint(newPoint);
-
-				repaint();
+				if(setNewPoints) {
+					int x = e.getX();
+					int y = e.getY();
+					Point newPoint = new Point(x / rowHt, y / rowWid);
+					gController.saveAlivePoint(newPoint);
+					repaint();
+				}
 			}
 		});
 
@@ -167,6 +168,10 @@ public class GridsCanvas extends JPanel {
 	public void setPaintNextPointsNeededToCheck(boolean paintNextPointsNeededToCheck) {
 		this.paintNextPointsNeededToCheck = paintNextPointsNeededToCheck;
 		this.repaint();
+	}
+	
+	public void setSetNewPoints(boolean setNewPoints) {
+		this.setNewPoints = setNewPoints;
 	}
 
 }

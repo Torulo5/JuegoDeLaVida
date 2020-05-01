@@ -6,28 +6,20 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.JFrame;
-
 import controllers.GameController;
 import controllers.NextStateEvent;
-
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.AbstractButton;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Point;
-
 import javax.swing.JLabel;
-import javax.swing.JToggleButton;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 
@@ -90,13 +82,27 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 		chckbxNextpoints.setSelected(true);
 		mnVisualizacion.add(chckbxNextpoints);
 		
+		JCheckBox chckbxNuevospuntos = new JCheckBox("NuevosPuntos");
+		chckbxNuevospuntos.addActionListener ( new ActionListener() {
+		      public void actionPerformed(ActionEvent actionEvent) {
+		          AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+		          boolean selected = abstractButton.getModel().isSelected();
+		          grindCanvas.setSetNewPoints(selected);
+		        }
+		});
+		chckbxNuevospuntos.setSelected(true);
+		chckbxNuevospuntos.setFocusable(false);
+		menuBar.add(chckbxNuevospuntos);
+		
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
 		});
+
 	}
+	
 	@Override
 	public void nextStateEvent(Map<String, List<Point>> newState, int stept, int points) {
 		grindCanvas.resetArray("ALIVE",newState);
@@ -129,7 +135,4 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 	public void keyReleased(KeyEvent e) {
 	}
 
-	public GridsCanvas getGrindCanvas() {
-		return grindCanvas;
-	}
 }
