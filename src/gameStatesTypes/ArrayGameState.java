@@ -44,35 +44,7 @@ public class ArrayGameState implements GameState {
 		calculateNextPointsAlive();
 	}
 	
-	public ArrayList<Point> calculatePointsNeededToCheck() {
 
-		pointsNeededToCheck.clear();
-		//iteramos los puntos vivos y guardamos sus vecinos
-		for(Point point : pointsAlive) {
-			int x = point.x;
-			int y = point.y;
-			if(!pointsNeededToCheck.contains(new Point(x,y+1)))
-				pointsNeededToCheck.add(new Point(x,y+1));
-			if(!pointsNeededToCheck.contains(new Point(x,y-1)))
-				pointsNeededToCheck.add(new Point(x,y-1));
-			if(!pointsNeededToCheck.contains(new Point(x-1,y)))
-				pointsNeededToCheck.add(new Point(x-1,y));
-			if(!pointsNeededToCheck.contains(new Point(x+1,y)))
-				pointsNeededToCheck.add(new Point(x+1,y));
-			if(!pointsNeededToCheck.contains(new Point(x-1,y-1)))
-				pointsNeededToCheck.add(new Point(x-1,y-1));
-			if(!pointsNeededToCheck.contains(new Point(x+1,y+1)))
-				pointsNeededToCheck.add(new Point(x+1,y+1));
-			if(!pointsNeededToCheck.contains(new Point(x+1,y-1)))
-				pointsNeededToCheck.add(new Point(x+1,y-1));
-			if(!pointsNeededToCheck.contains(new Point(x-1,y+1)))
-				pointsNeededToCheck.add(new Point(x-1,y+1));
-		}
-
-		return pointsNeededToCheck;
-	}
-	
-	
 	public ArrayList<Point> calculateNextPointsAlive() {
 
 		nextPointsAlive.clear();
@@ -100,6 +72,34 @@ public class ArrayGameState implements GameState {
 		}
 		
 		return nextPointsAlive;
+	}
+	
+	public ArrayList<Point> calculatePointsNeededToCheck() {
+
+		pointsNeededToCheck.clear();
+		//iteramos los puntos vivos y guardamos sus vecinos
+		for(Point point : pointsAlive) {
+			int x = point.x;
+			int y = point.y;
+			if(!pointsNeededToCheck.contains(new Point(x,y+1)))
+				pointsNeededToCheck.add(new Point(x,y+1));
+			if(!pointsNeededToCheck.contains(new Point(x,y-1)))
+				pointsNeededToCheck.add(new Point(x,y-1));
+			if(!pointsNeededToCheck.contains(new Point(x-1,y)))
+				pointsNeededToCheck.add(new Point(x-1,y));
+			if(!pointsNeededToCheck.contains(new Point(x+1,y)))
+				pointsNeededToCheck.add(new Point(x+1,y));
+			if(!pointsNeededToCheck.contains(new Point(x-1,y-1)))
+				pointsNeededToCheck.add(new Point(x-1,y-1));
+			if(!pointsNeededToCheck.contains(new Point(x+1,y+1)))
+				pointsNeededToCheck.add(new Point(x+1,y+1));
+			if(!pointsNeededToCheck.contains(new Point(x+1,y-1)))
+				pointsNeededToCheck.add(new Point(x+1,y-1));
+			if(!pointsNeededToCheck.contains(new Point(x-1,y+1)))
+				pointsNeededToCheck.add(new Point(x-1,y+1));
+		}
+
+		return pointsNeededToCheck;
 	}
 	
 	private int neighborsState(Point point) {

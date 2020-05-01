@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import gameStatesTypes.ArrayGameState;
 import gameStatesTypes.GameState;
+import gameStatesTypes.HasMapGameState;
 
 public class GameModel {
 
@@ -14,7 +15,8 @@ public class GameModel {
 	private int steps = 0;
 	
 	public GameModel() {
-		gameState = new ArrayGameState();
+		//gameState = new ArrayGameState();
+		gameState = new HasMapGameState();
 	}
 
 	public ArrayList<Point> getPoints() {
