@@ -29,12 +29,22 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 	private GameController gController = null;
 
 	private final boolean DEBUG = false;
+	
+	//auxiliar arrays to save currentState to paint
+	private ArrayList<Point> pointsAlive;
+	private ArrayList<Point> nextPointsAlive;
+	private ArrayList<Point> pointsNeededToCheck;
+
 
 	GridsCanvas(int w, int h, int ladoCuadrado) {
-		setSize(width = w, height = h);
-		rowHt = rowWid = ladoCuadrado;
-		stroke = 1;
+		setSize(this.width = w, this.height = h);
+		this.rowHt = this.rowWid = ladoCuadrado;
+		this.stroke = 1;
 
+		this.pointsAlive = new ArrayList<Point>();
+		this.nextPointsAlive = new ArrayList<Point>();
+		this.pointsNeededToCheck = new ArrayList<Point>();
+		
 		addMouseListener(new MouseAdapter() {
 
 			@Override
@@ -59,20 +69,20 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		width = getSize().width;
-		height = getSize().height;
-		rows = (double) height / rowHt;
-		cols = (double) width / rowWid;
+		this.width = this.getSize().width;
+		this.height = this.getSize().height;
+		this.rows = (double) this.height / this.rowHt;
+		this.cols = (double) this.width / this.rowWid;
 
 		paintLines(g);
 		
-		ArrayList<Point> pointstoCheck = gController.getPointsToPaint(2);
+		ArrayList<Point> pointstoCheck = this.gController.getPointsToPaint(2);
 		paintRectangles(g,pointstoCheck,Color.green);
 		
-		ArrayList<Point> pointsAlive = gController.getPointsToPaint(1);
+		ArrayList<Point> pointsAlive = this.gController.getPointsToPaint(1);
 		paintRectangles(g,pointsAlive,Color.RED);
 		
-		ArrayList<Point> nextsPointsAlive = gController.getPointsToPaint(3);
+		ArrayList<Point> nextsPointsAlive = this.gController.getPointsToPaint(3);
 		paintOvals(g,nextsPointsAlive,Color.blue);
 
 	}
@@ -81,32 +91,32 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 		int i;
 		Graphics2D g2d = (Graphics2D) g.create();
 
-		g2d.setStroke(new BasicStroke(stroke));
+		g2d.setStroke(new BasicStroke(this.stroke));
 
-		for (i = 0; i < rows; i++)
-			g2d.drawLine(0, i * rowHt, width, i * rowHt);
+		for (i = 0; i < this.rows; i++)
+			g2d.drawLine(0, i * this.rowHt, this.width, i * this.rowHt);
 
-		for (i = 0; i < cols; i++)
-			g2d.drawLine(i * rowWid, 0, i * rowWid, height);
+		for (i = 0; i < this.cols; i++)
+			g2d.drawLine(i * this.rowWid, 0, i * this.rowWid, this.height);
 	}
 
 	private void paintRectangles(Graphics g,ArrayList<Point> pointsAlive, Color color) {
 
 		int strokeSpacer = 1;
-		if (stroke != 1)
-			strokeSpacer = Math.round((float) stroke / 2);
+		if (this.stroke != 1)
+			strokeSpacer = Math.round((float) this.stroke / 2);
 
 		for (Point point : pointsAlive) {
 			if (DEBUG) {
 				System.out.println("----------------------PAINT RECTANGLE------------------------");
 				System.out.println("InitialX: " + point.x + " InitialY: " + point.y);
-				System.out.println("FinalX  : " + point.x * rowHt + " FinalY  : " + point.y * rowWid);
-				System.out.println("STROKE: " + stroke + " strokeSpacer: " + strokeSpacer);
+				System.out.println("FinalX  : " + point.x * this.rowHt + " FinalY  : " + point.y * this.rowWid);
+				System.out.println("STROKE: " + this.stroke + " strokeSpacer: " + strokeSpacer);
 				System.out.println("-------------------------------------------------------------");
 			}
 			g.setColor(color);
-			g.fillRect(point.x * rowHt + strokeSpacer, point.y * rowWid + strokeSpacer, rowHt - stroke,
-					rowWid - stroke);
+			g.fillRect(point.x * this.rowHt + strokeSpacer, point.y * this.rowWid + strokeSpacer, this.rowHt - this.stroke,
+					this.rowWid - this.stroke);
 		}
 	}
 	
@@ -117,11 +127,11 @@ public class GridsCanvas extends JPanel implements NextStateEvent{
 			if (DEBUG) {
 				System.out.println("----------------------PAINT RECTANGLE------------------------");
 				System.out.println("InitialX: " + point.x + " InitialY: " + point.y);
-				System.out.println("FinalX  : " + point.x * rowHt + " FinalY  : " + point.y * rowWid);
+				System.out.println("FinalX  : " + point.x * this.rowHt + " FinalY  : " + point.y * this.rowWid);
 				System.out.println("-------------------------------------------------------------");
 			}
 			g.setColor(color);
-			g.fillOval(point.x * rowHt + Math.round((float) rowHt / 4), point.y * rowWid + Math.round((float) rowWid / 4), 10, 10);
+			g.fillOval(point.x * this.rowHt + Math.round((float) this.rowHt / 4), point.y * this.rowWid + Math.round((float) this.rowWid / 4), 10, 10);
 
 		}
 	}
