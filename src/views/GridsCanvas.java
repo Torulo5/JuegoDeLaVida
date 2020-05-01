@@ -10,13 +10,11 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.JPanel;
-
 import controllers.GameController;
-import controllers.NextStateEvent;
 
-public class GridsCanvas extends JPanel implements NextStateEvent {
+
+public class GridsCanvas extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -133,24 +131,7 @@ public class GridsCanvas extends JPanel implements NextStateEvent {
 		}
 	}
 
-	@Override
-	public void nextStateEvent(Map<String, List<Point>> newState) {
-		resetArray("ALIVE",newState);
-		resetArray("CHECK",newState);
-		resetArray("NEXTALIVE",newState);
-		this.repaint();
-	}
-
-	@Override
-	public void newPointEvent(Map<String, List<Point>> newState) {
-		this.pointsAlive.clear();
-		resetArray("ALIVE",newState);
-		resetArray("CHECK",newState);
-		resetArray("NEXTALIVE",newState);
-		this.repaint();
-	}
-
-	private void resetArray(String array, Map<String, List<Point>> newState) {
+	public void resetArray(String array, Map<String, List<Point>> newState) {
 		List<Point> auxArray = null;
 		switch (array) {
 		case "ALIVE":

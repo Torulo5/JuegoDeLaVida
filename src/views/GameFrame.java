@@ -4,24 +4,34 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 
 import controllers.GameController;
+import controllers.NextStateEvent;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Point;
+
 import javax.swing.JLabel;
 
-public class GameFrame extends JFrame implements KeyListener {
+public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 
 	private static final long serialVersionUID = 1L;
 
 	private GameController gController = null;
 	private GridsCanvas grindCanvas = null;
+	private JLabel labelEstado = null;
+	private JMenuBar menuBar = null;
+	private JMenu mnConfiguracion = null;
+	private JMenuItem mntmVisualizacion = null;
 
 	public GameFrame(GameController gController) {
 		this.gController = gController;
@@ -29,8 +39,8 @@ public class GameFrame extends JFrame implements KeyListener {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 		
-		JLabel lblNewLabel = new JLabel("New label");
-		panel.add(lblNewLabel);
+		labelEstado = new JLabel("Steps: ");
+		panel.add(labelEstado);
 
 		grindCanvas = new GridsCanvas(200, 200, 20);
 		grindCanvas.setgController(this.gController);
@@ -38,23 +48,36 @@ public class GameFrame extends JFrame implements KeyListener {
 		grindCanvas.setLayout(new BoxLayout(grindCanvas, BoxLayout.X_AXIS));
 		this.addKeyListener(this);
 		
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnConfiguracion = new JMenu("Configuracion");
+		mnConfiguracion = new JMenu("Configuracion");
 		menuBar.add(mnConfiguracion);
 		
-		JMenuItem mntmVisualizacion = new JMenuItem("Visualizacion");
+		mntmVisualizacion = new JMenuItem("Visualizacion");
 		mnConfiguracion.add(mntmVisualizacion);
 		
-		JMenu mnNewMenu = new JMenu("New menu");
-		menuBar.add(mnNewMenu);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
 		});
+	}
+	@Override
+	public void nextStateEvent(Map<String, List<Point>> newState) {
+		grindCanvas.resetArray("ALIVE",newState);
+		grindCanvas.resetArray("CHECK",newState);
+		grindCanvas.resetArray("NEXTALIVE",newState);
+		this.repaint();
+	}
+
+	@Override
+	public void newPointEvent(Map<String, List<Point>> newState) {
+		grindCanvas.resetArray("ALIVE",newState);
+		grindCanvas.resetArray("CHECK",newState);
+		grindCanvas.resetArray("NEXTALIVE",newState);
+		this.repaint();
 	}
 
 	@Override

@@ -10,7 +10,7 @@ public class main {
 		GameModel gModel = new GameModel();
 		GameController gController = new GameController(gModel);
 		GameFrame gFrame = new GameFrame(gController);	
-		gController.addNextStatelisteners(gFrame.getGrindCanvas());
+		gController.addNextStatelisteners(gFrame);
 		
 		//mostramos pantalla
 		gFrame.pack();
