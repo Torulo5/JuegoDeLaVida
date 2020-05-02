@@ -42,14 +42,11 @@ public class GameController {
 		int index = 0;
 		for (GameModel gModel : this.gModelArray) {
 			gModel.deletePoint(pointTodelete);
-			Map<String, List<Point>> map = new HashMap<String, List<Point>>();
-			List<Point> points = gModel.getPoints();
-			map.put("ALIVE",points);
-			map.put("CHECK",gModel.getPointsNeededToCheck());
-			map.put("NEXTALIVE",gModel.getNextPointsAlive());
+			
+			Map<String, List<Point>> map = this.generateMapForFrames(gModel);
 			
 			NextStateEvent listener = this.nextStatelisteners.get(index);
-			listener.newPointEvent(map,points.size());
+			listener.newPointEvent(map,gModel.getPoints().size());
 		}
 	}
 
@@ -63,14 +60,10 @@ public class GameController {
 			Instant end = Instant.now();
 			Duration timeElapsed = Duration.between(start, end);
 			
-			Map<String, List<Point>> map = new HashMap<String, List<Point>>();
-			List<Point> points = gModel.getPoints();
-			map.put("ALIVE",points);
-			map.put("CHECK",gModel.getPointsNeededToCheck());
-			map.put("NEXTALIVE",gModel.getNextPointsAlive());
+			Map<String, List<Point>> map = this.generateMapForFrames(gModel);
 			
 			NextStateEvent listener = this.nextStatelisteners.get(index);
-			listener.nextStateEvent(map,gModel.getSteps(),points.size(),timeElapsed.toNanos());
+			listener.nextStateEvent(map,gModel.getSteps(),gModel.getPoints().size(),timeElapsed.toNanos());
 			index++;
 		}
 		
@@ -79,21 +72,12 @@ public class GameController {
 	public void clearGame() {
 		int index = 0;
 		for (GameModel gModel : this.gModelArray) {
-			Instant start = Instant.now();
 			
 			gModel.clearPoints();
-			
-			Instant end = Instant.now();
-			Duration timeElapsed = Duration.between(start, end);
-			
-			Map<String, List<Point>> map = new HashMap<String, List<Point>>();
-			List<Point> points = gModel.getPoints();
-			map.put("ALIVE",points);
-			map.put("CHECK",gModel.getPointsNeededToCheck());
-			map.put("NEXTALIVE",gModel.getNextPointsAlive());
+			Map<String, List<Point>> map = this.generateMapForFrames(gModel);
 			
 			NextStateEvent listener = this.nextStatelisteners.get(index);
-			listener.nextStateEvent(map,gModel.getSteps(),points.size(),timeElapsed.toNanos());
+			listener.nextStateEvent(map,gModel.getSteps(),gModel.getPoints().size(),0);
 			index++;
 		}
 	}
@@ -101,5 +85,14 @@ public class GameController {
 	public void addGameModelAndListener(GameModel model,NextStateEvent nextStatelistener) {
 		this.gModelArray.add(model);
 		this.nextStatelisteners.add(nextStatelistener);
+	}
+	
+	private Map<String, List<Point>> generateMapForFrames(GameModel gModel){
+		Map<String, List<Point>> map = new HashMap<String, List<Point>>();
+		map.put("ALIVE",gModel.getPoints());
+		map.put("CHECK",gModel.getPointsNeededToCheck());
+		map.put("NEXTALIVE",gModel.getNextPointsAlive());
+		
+		return map;
 	}
 }
