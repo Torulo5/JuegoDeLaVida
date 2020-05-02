@@ -159,5 +159,11 @@ public class ArrayGameState implements GameState {
 	public ArrayList<Point> getNextPointsAlive() {
 		return this.nextPointsAlive;
 	}
+
+	@Override
+	public void deletePoint(Point alivePoint) {
+		pointsAlive.remove(alivePoint);
+		this.calculateNextPointsAlive();
+	}
 	
 }

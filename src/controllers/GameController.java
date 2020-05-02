@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import gameStatesTypes.ArrayGameState;
 import models.GameModel;
 
 
@@ -37,6 +35,21 @@ public class GameController {
 			NextStateEvent listener = this.nextStatelisteners.get(index);
 			listener.newPointEvent(map,points.size());
 			index++;
+		}
+	}
+	
+	public void removePoint(Point pointTodelete) {
+		int index = 0;
+		for (GameModel gModel : this.gModelArray) {
+			gModel.deletePoint(pointTodelete);
+			Map<String, List<Point>> map = new HashMap<String, List<Point>>();
+			List<Point> points = gModel.getPoints();
+			map.put("ALIVE",points);
+			map.put("CHECK",gModel.getPointsNeededToCheck());
+			map.put("NEXTALIVE",gModel.getNextPointsAlive());
+			
+			NextStateEvent listener = this.nextStatelisteners.get(index);
+			listener.newPointEvent(map,points.size());
 		}
 	}
 

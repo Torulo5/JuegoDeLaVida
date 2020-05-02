@@ -25,6 +25,7 @@ public class HasMapGameState implements GameState {
 		calculateNextPointsAlive();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void calculateNextStep() {
 		this.pointsAlive.clear();
@@ -192,6 +193,16 @@ public class HasMapGameState implements GameState {
 			}
 		}
 		return neighborsAlive;
+	}
+
+	@Override
+	public void deletePoint(Point alivePoint) {
+		Integer key = new Integer(alivePoint.x);
+		List<Point> arrayOfPoints = pointsAlive.get(key);
+		if(arrayOfPoints != null) {
+			arrayOfPoints.remove(alivePoint);
+			this.calculateNextPointsAlive();
+		}
 	}
 	
 }

@@ -15,7 +15,6 @@ public class GameModel {
 	private int steps = 0;
 	
 	public GameModel(int type) {
-		
 		switch (type) {
 			case 1:
 				gameState = new ArrayGameState();
@@ -50,6 +49,10 @@ public class GameModel {
 	public void clearPoints() {
 		this.steps = 0;
 		this.gameState.clearPoints();
+	}
+	
+	public void deletePoint(Point pointTodelete) {
+		this.gameState.deletePoint(pointTodelete);
 	}
 
 	public int getSteps() {

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public interface GameState {
 	public void addNewPoint(Point alivePoint);
+	public void deletePoint(Point pointTodelete);
 	public void calculateNextStep();
 	public ArrayList<Point> getPoints();
 	public ArrayList<Point> getPointsNeededToCheck();

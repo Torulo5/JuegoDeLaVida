@@ -64,7 +64,8 @@ public class GridsCanvas extends JPanel {
 					gController.saveAlivePoint(newPoint);
 					repaint();
 				} else if(SwingUtilities.isRightMouseButton(e)) {
-					System.out.println("d");
+					gController.removePoint(newPoint);
+					repaint();
 				}
 			}
 		});
