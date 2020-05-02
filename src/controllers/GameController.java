@@ -1,5 +1,8 @@
 package controllers;
 import java.awt.Point;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,15 +37,23 @@ public class GameController {
 	}
 
 	public synchronized void nextTurn() {
+		
+		Instant start = Instant.now();
+		
 		gModel.setNextStatus();
+		
+		Instant end = Instant.now();
+		Duration timeElapsed = Duration.between(start, end);
+		
 		Map<String, List<Point>> map = new HashMap<String, List<Point>>();
 		List<Point> points = gModel.getPoints();
 		map.put("ALIVE",points);
 		map.put("CHECK",gModel.getPointsNeededToCheck());
 		map.put("NEXTALIVE",gModel.getNextPointsAlive());
 		for (NextStateEvent listeners : this.nextStatelisteners) {
-			listeners.nextStateEvent(map,gModel.getSteps(),points.size());
+			listeners.nextStateEvent(map,gModel.getSteps(),points.size(),timeElapsed.toMillis());
 		}
+		
 	}
 	
 	public void clearGame() {
