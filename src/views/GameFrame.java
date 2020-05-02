@@ -46,7 +46,7 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 		labelPuntos = new JLabel("Puntos: 0");
 		panel.add(labelPuntos);
 		
-		labelStepTime = new JLabel("StepTime(millis): 0");
+		labelStepTime = new JLabel("StepTime(nanos): 0");
 		panel.add(labelStepTime);
 
 		grindCanvas = new GridsCanvas(200, 200, 20);
@@ -114,7 +114,7 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 		grindCanvas.resetArray("NEXTALIVE",newState);
 		labelEstado.setText("Steps: " + stept);
 		labelPuntos.setText("Points: " + points);
-		labelStepTime.setText("StepTime(millis): " + timeElapsedToCalculateStep);
+		labelStepTime.setText("StepTime(nanos): " + timeElapsedToCalculateStep);
 		this.repaint();
 	}
 

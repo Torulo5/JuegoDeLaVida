@@ -57,7 +57,7 @@ public class GameController {
 			map.put("NEXTALIVE",gModel.getNextPointsAlive());
 			
 			NextStateEvent listener = this.nextStatelisteners.get(index);
-			listener.nextStateEvent(map,gModel.getSteps(),points.size(),timeElapsed.toMillis());
+			listener.nextStateEvent(map,gModel.getSteps(),points.size(),timeElapsed.toNanos());
 			index++;
 		}
 		
