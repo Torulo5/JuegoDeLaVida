@@ -1,3 +1,7 @@
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import controllers.GameController;
 import models.GameModel;
 import views.GameFrame;
@@ -6,6 +10,7 @@ public class main {
 
 	public static void main(String[] a) {
 		
+
 
 		GameModel gModelHashMap = new GameModel(2);
 //		GameModel gModelArray = new GameModel(1);
@@ -31,6 +36,15 @@ public class main {
 		gFrame.setVisible(true);
 		//gFrame1.setVisible(true);
 		
+
+	    try {
+			String LAF = "com.sun.java.swing.plaf.windows.WindowsLookAndFeel";
+			UIManager.setLookAndFeel(LAF);
+		    SwingUtilities.updateComponentTreeUI(gFrame);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }
