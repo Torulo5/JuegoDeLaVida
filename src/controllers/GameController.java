@@ -16,14 +16,12 @@ public class GameController {
 	private List<GameModel> gModelArray = null; 
 	
 	private List<NextStateEvent> nextStatelisteners = null;
-	private List<GameModel> asocianteGameModel = null;
 	
 
 	public GameController() {
 		super();
 		this.gModelArray = new ArrayList<GameModel>();
 		this.nextStatelisteners = new ArrayList<NextStateEvent>();
-		this.asocianteGameModel = new ArrayList<GameModel>();
 	}
 	
 	public void saveAlivePoint(Point alivePoint) {

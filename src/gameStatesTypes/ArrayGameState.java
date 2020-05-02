@@ -41,15 +41,15 @@ public class ArrayGameState implements GameState {
 		}
 		pointsNeededToCheck.clear();
 		nextPointsAlive.clear();
-		calculateNextPointsAlive();
+		this.calculateNextPointsAlive();
 	}
 	
 
-	public ArrayList<Point> calculateNextPointsAlive() {
+	private void calculateNextPointsAlive() {
 
 		nextPointsAlive.clear();
-		ArrayList<Point> pointsToCheck = calculatePointsNeededToCheck();
-		for(Point point : pointsToCheck) {
+		calculatePointsNeededToCheck();
+		for(Point point : pointsNeededToCheck) {
 			if(neighborsState(point) == 3) {
 				if(!nextPointsAlive.contains(point))
 					nextPointsAlive.add(point);
@@ -66,15 +66,15 @@ public class ArrayGameState implements GameState {
 					nextPointsAlive.add(point);
 			} else if(neighborsState(point) == 4) {
 				if(pointsAlive.contains(point)) {
-					nextPointsAlive.add(point);
+					if(!nextPointsAlive.contains(point))
+						nextPointsAlive.add(point);
 				}
 			}
 		}
 		
-		return nextPointsAlive;
 	}
 	
-	public ArrayList<Point> calculatePointsNeededToCheck() {
+	private void calculatePointsNeededToCheck() {
 
 		pointsNeededToCheck.clear();
 		//iteramos los puntos vivos y guardamos sus vecinos
@@ -99,7 +99,6 @@ public class ArrayGameState implements GameState {
 				pointsNeededToCheck.add(new Point(x-1,y+1));
 		}
 
-		return pointsNeededToCheck;
 	}
 	
 	private int neighborsState(Point point) {
