@@ -148,15 +148,15 @@ public class GridsCanvas extends JPanel {
 	public void resetArray(String array, Map<String, List<Point>> newState) {
 		List<Point> auxArray = null;
 		switch (array) {
-		case "ALIVE":
-			auxArray = this.pointsAlive;
-			break;
-		case "CHECK":
-			auxArray = this.pointsNeededToCheck;
-			break;
-		case "NEXTALIVE":
-			auxArray = this.nextPointsAlive;
-			break;
+			case "ALIVE":
+				auxArray = this.pointsAlive;
+				break;
+			case "CHECK":
+				auxArray = this.pointsNeededToCheck;
+				break;
+			case "NEXTALIVE":
+				auxArray = this.nextPointsAlive;
+				break;
 		}
 
 		auxArray.clear();

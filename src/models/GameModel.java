@@ -14,9 +14,16 @@ public class GameModel {
 	private final boolean DEBUG = false;
 	private int steps = 0;
 	
-	public GameModel() {
-		//gameState = new ArrayGameState();
-		gameState = new HasMapGameState();
+	public GameModel(int type) {
+		
+		switch (type) {
+			case 1:
+				gameState = new ArrayGameState();
+				break;
+			case 2:
+				gameState = new HasMapGameState();
+				break;
+		}
 	}
 
 	public ArrayList<Point> getPoints() {
