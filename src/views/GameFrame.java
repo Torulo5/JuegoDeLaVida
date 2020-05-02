@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JButton;
 
 public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 
@@ -97,6 +98,15 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 		chckbxNuevospuntos.setSelected(true);
 		chckbxNuevospuntos.setFocusable(false);
 		menuBar.add(chckbxNuevospuntos);
+		
+		JButton btnResettablero = new JButton("ResetTablero");
+		btnResettablero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gController.clearGame();
+			}
+		});
+		btnResettablero.setFocusable(false);
+		menuBar.add(btnResettablero);
 		
 		this.addWindowListener(new WindowAdapter() {
 			@Override
