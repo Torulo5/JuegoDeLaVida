@@ -20,23 +20,23 @@ import controllers.GameController;
 public class GridsCanvas extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-
-	private int width, height;
-	private double rows;
-	private double cols;
+	private final boolean DEBUG = false;
+	
+	private GameController gController = null;
+	
+	//tamaño ventana y numero de columas
+	private int width = 0, height = 0;
+	private double rows = 0;
+	private double cols = 0;
 
 	// tamaño de cada casila
-	private int rowHt;
-	private int rowWid;
-	private int stroke;
+	private int rowHt = 0;
+	private int rowWid = 0;
+	private int stroke = 0;
 
-	private GameController gController = null;
-
-	private final boolean DEBUG = false;
-
+	// flags para controlar el comportamiento del grid
 	private boolean paintNextPointsAlive = true;
 	private boolean paintNextPointsNeededToCheck = true;
-	
 	private boolean setNewPoints = true;
 	private boolean isChangeSize = true;
 
