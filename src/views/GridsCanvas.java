@@ -54,12 +54,13 @@ public class GridsCanvas extends JPanel {
 		this.nextPointsAlive = new ArrayList<Point>();
 		this.pointsNeededToCheck = new ArrayList<Point>();
 
-		addMouseListener(new MouseAdapter() {
+		
+        MouseAdapter ma = new MouseAdapter() {
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if (!setNewPoints) 
 					return;
-				
 				int x = e.getX();
 				int y = e.getY();
 				Point newPoint = new Point(x / rowHt, y / rowWid);
@@ -72,7 +73,27 @@ public class GridsCanvas extends JPanel {
 					repaint();
 				}
 			}
-		});
+		
+            @Override
+            public void mouseDragged(MouseEvent e) {
+				if (!setNewPoints) 
+					return;
+				int x = e.getX();
+				int y = e.getY();
+				Point newPoint = new Point(x / rowHt, y / rowWid);
+				if (SwingUtilities.isLeftMouseButton(e)) {
+					gController.saveAlivePoint(newPoint);
+					repaint();
+				} else if(SwingUtilities.isRightMouseButton(e)) {
+					gController.removePoint(newPoint);
+					repaint();
+				}
+            }
+
+        };
+		
+		addMouseListener(ma);
+		addMouseMotionListener(ma);
 		
 		addMouseWheelListener(new MouseWheelListener() {
 			@Override
