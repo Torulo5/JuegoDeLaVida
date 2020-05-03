@@ -7,6 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +36,9 @@ public class GridsCanvas extends JPanel {
 
 	private boolean paintNextPointsAlive = true;
 	private boolean paintNextPointsNeededToCheck = true;
+	
 	private boolean setNewPoints = true;
+	private boolean isChangeSize = true;
 
 	// auxiliar arrays to save currentState to paint
 	private ArrayList<Point> pointsAlive;
@@ -67,6 +71,25 @@ public class GridsCanvas extends JPanel {
 					gController.removePoint(newPoint);
 					repaint();
 				}
+			}
+		});
+		
+		addMouseWheelListener(new MouseWheelListener() {
+			@Override
+			public void mouseWheelMoved(MouseWheelEvent e) {
+				if(!isChangeSize)
+					return;					
+		        if (e.getWheelRotation() < 0) {
+		            rowHt++;
+		            rowWid++;	
+					repaint();
+		        } else {
+		            if(!(rowHt == 5 || rowWid == 5)) {
+			            rowHt--;
+			            rowWid--;	
+						repaint();
+		            }
+		        }
 			}
 		});
 
