@@ -33,6 +33,7 @@ public class main {
 		gController.addGameModelAndListener(gModelHashMap,gFrame);
 		//gController.addGameModelAndListener(gModelArray,gFrame1);
 
+		gFrame.setLocationRelativeTo(null);
 		gFrame.setVisible(true);
 		//gFrame1.setVisible(true);
 		
