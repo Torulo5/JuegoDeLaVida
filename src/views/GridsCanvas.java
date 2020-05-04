@@ -39,6 +39,10 @@ public class GridsCanvas extends JPanel {
 	private boolean paintNextPointsNeededToCheck = true;
 	private boolean setNewPoints = true;
 	private boolean isChangeSize = true;
+	
+	// variables para guardar valor de la esquina equivalente a (0,0)
+	private int xActual = 0;
+	private int yActual = 0;
 
 	// auxiliar arrays to save currentState to paint
 	private ArrayList<Point> pointsAlive;
@@ -57,37 +61,54 @@ public class GridsCanvas extends JPanel {
 		
         MouseAdapter ma = new MouseAdapter() {
 
+        	Point puntoInicial = null;
+			int initialDragX = 0;
+			int initialDragY = 0;
+        	
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if (!setNewPoints) 
-					return;
 				int x = e.getX();
 				int y = e.getY();
-				Point newPoint = new Point(x / rowHt, y / rowWid);
-				
-				if (SwingUtilities.isLeftMouseButton(e)) {
-					gController.saveAlivePoint(newPoint);
-					repaint();
-				} else if(SwingUtilities.isRightMouseButton(e)) {
-					gController.removePoint(newPoint);
-					repaint();
+				if (setNewPoints) {
+					Point newPoint = new Point((x / rowHt) - xActual, (y / rowWid) - yActual);
+					if (SwingUtilities.isLeftMouseButton(e)) {
+						gController.saveAlivePoint(newPoint);
+						repaint();
+					} else if(SwingUtilities.isRightMouseButton(e)) {
+						gController.removePoint(newPoint);
+						repaint();
+					}
+				} else {
+					puntoInicial = new Point(x, y);
+					initialDragX = xActual;
+					initialDragY = yActual;
 				}
 			}
 		
             @Override
             public void mouseDragged(MouseEvent e) {
-				if (!setNewPoints) 
-					return;
 				int x = e.getX();
 				int y = e.getY();
-				Point newPoint = new Point(x / rowHt, y / rowWid);
-				if (SwingUtilities.isLeftMouseButton(e)) {
-					gController.saveAlivePoint(newPoint);
-					repaint();
-				} else if(SwingUtilities.isRightMouseButton(e)) {
-					gController.removePoint(newPoint);
+				if (setNewPoints) {
+					Point newPoint = new Point((x / rowHt) - xActual, (y / rowWid) - yActual);
+					if (SwingUtilities.isLeftMouseButton(e)) {
+						gController.saveAlivePoint(newPoint);
+						repaint();
+					} else if(SwingUtilities.isRightMouseButton(e)) {
+						gController.removePoint(newPoint);
+						repaint();
+					}
+				} else {
+					Point puntoFinal = new Point(x, y);
+					xActual = initialDragX + (puntoFinal.x - puntoInicial.x)/2;
+					yActual = initialDragY + (puntoFinal.y - puntoInicial.y)/2;
 					repaint();
 				}
+            }
+            
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            	
             }
 
         };
@@ -169,7 +190,7 @@ public class GridsCanvas extends JPanel {
 				System.out.println("-------------------------------------------------------------");
 			}
 			g.setColor(color);
-			g.fillRect(point.x * this.rowHt + strokeSpacer, point.y * this.rowWid + strokeSpacer,
+			g.fillRect((xActual + point.x) * this.rowHt + strokeSpacer, (yActual + point.y) * this.rowWid + strokeSpacer,
 					this.rowHt - this.stroke, this.rowWid - this.stroke);
 		}
 	}
@@ -184,8 +205,8 @@ public class GridsCanvas extends JPanel {
 				System.out.println("-------------------------------------------------------------");
 			}
 			g.setColor(color);
-			g.fillOval(point.x * this.rowHt + Math.round((float) this.rowHt / 4),
-					point.y * this.rowWid + Math.round((float) this.rowWid / 4), 10, 10);
+			g.fillOval((xActual + point.x) * this.rowHt + Math.round((float) this.rowHt / 4),
+					(yActual + point.y) * this.rowWid + Math.round((float) this.rowWid / 4), 10, 10);
 
 		}
 	}
