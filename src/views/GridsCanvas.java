@@ -66,6 +66,7 @@ public class GridsCanvas extends JPanel {
         	private int initialDragX = 0;
         	private int initialDragY = 0;
         	private boolean mouseInCanvas = false;
+        	private int mouseSensitivity = 20;
         	
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -108,8 +109,8 @@ public class GridsCanvas extends JPanel {
 					}
 				} else {
 					Point puntoFinal = new Point(x, y);
-					xActual = initialDragX + (puntoFinal.x - puntoInicial.x)/2;
-					yActual = initialDragY + (puntoFinal.y - puntoInicial.y)/2;
+					xActual = initialDragX + (puntoFinal.x - puntoInicial.x)/mouseSensitivity;
+					yActual = initialDragY + (puntoFinal.y - puntoInicial.y)/mouseSensitivity;
 					repaint();
 				}
             }
@@ -129,11 +130,7 @@ public class GridsCanvas extends JPanel {
     				setCursor(new Cursor(Cursor.MOVE_CURSOR));
     			}
             }
-        };
-		
-		addMouseListener(ma);
-		addMouseMotionListener(ma);
-		addMouseWheelListener(new MouseWheelListener() {
+            
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
 				if(!isChangeSize)
@@ -141,16 +138,22 @@ public class GridsCanvas extends JPanel {
 		        if (e.getWheelRotation() < 0) {
 		            rowHt++;
 		            rowWid++;	
+		            mouseSensitivity++;
 					repaint();
 		        } else {
 		            if(!(rowHt == 5 || rowWid == 5)) {
 			            rowHt--;
 			            rowWid--;	
+			            mouseSensitivity--;
 						repaint();
 		            }
 		        }
 			}
-		});
+        };
+		
+		addMouseListener(ma);
+		addMouseMotionListener(ma);
+		addMouseWheelListener(ma);
 
 	}
 
