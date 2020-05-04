@@ -2,6 +2,7 @@ package views;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -61,12 +62,16 @@ public class GridsCanvas extends JPanel {
 		
         MouseAdapter ma = new MouseAdapter() {
 
-        	Point puntoInicial = null;
-			int initialDragX = 0;
-			int initialDragY = 0;
+        	private Point puntoInicial = null;
+        	private int initialDragX = 0;
+        	private int initialDragY = 0;
+        	private boolean mouseInCanvas = false;
         	
 			@Override
 			public void mousePressed(MouseEvent e) {
+            	if(!mouseInCanvas)
+            		return;
+            	
 				int x = e.getX();
 				int y = e.getY();
 				if (setNewPoints) {
@@ -87,6 +92,9 @@ public class GridsCanvas extends JPanel {
 		
             @Override
             public void mouseDragged(MouseEvent e) {
+            	if(!mouseInCanvas)
+            		return;
+            	
 				int x = e.getX();
 				int y = e.getY();
 				if (setNewPoints) {
@@ -107,10 +115,20 @@ public class GridsCanvas extends JPanel {
             }
             
             @Override
-            public void mouseReleased(MouseEvent e) {
-            	
+            public void mouseExited(MouseEvent e) {
+            	mouseInCanvas = false;
+            	setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
             }
-
+            
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            	mouseInCanvas = true;
+    			if (setNewPoints) {
+    				setCursor(new Cursor(Cursor.HAND_CURSOR));
+    			} else {
+    				setCursor(new Cursor(Cursor.MOVE_CURSOR));
+    			}
+            }
         };
 		
 		addMouseListener(ma);
