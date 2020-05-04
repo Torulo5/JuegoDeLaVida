@@ -204,8 +204,9 @@ public class GridsCanvas extends JPanel {
 				System.out.println("-------------------------------------------------------------");
 			}
 			g.setColor(color);
-			g.fillOval((xActual + point.x) * this.rowHt + Math.round((float) this.rowHt / 4),
-					(yActual + point.y) * this.rowWid + Math.round((float) this.rowWid / 4), 10, 10);
+			g.fillOval((xActual + point.x) * this.rowHt + Math.round((float) this.rowHt / 3),
+					   (yActual + point.y) * this.rowWid + Math.round((float) this.rowWid / 3), 
+					   Math.round((float) this.rowHt / 4), Math.round((float) this.rowHt / 4));
 
 		}
 	}
