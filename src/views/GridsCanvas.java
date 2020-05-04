@@ -115,7 +115,6 @@ public class GridsCanvas extends JPanel {
 		
 		addMouseListener(ma);
 		addMouseMotionListener(ma);
-		
 		addMouseWheelListener(new MouseWheelListener() {
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
