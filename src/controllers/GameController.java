@@ -6,20 +6,34 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import models.GameModel;
 
 
 public class GameController {
 	
 	private List<GameModel> gModelArray = null; 
-	
 	private List<NextStateEvent> nextStatelisteners = null;
-	
+	private Timer timer = null;
 
 	public GameController() {
 		super();
 		this.gModelArray = new ArrayList<GameModel>();
 		this.nextStatelisteners = new ArrayList<NextStateEvent>();
+		this.timer = new Timer("GameTurmTImer");
+		
+		TimerTask timerTask = new TimerTask() {
+
+            @Override
+            public void run() {
+                System.out.println("prueba");
+                nextTurn();
+            }
+        };
+
+        timer.scheduleAtFixedRate(timerTask, 0, 1000);
 	}
 	
 	public void saveAlivePoint(Point alivePoint) {
