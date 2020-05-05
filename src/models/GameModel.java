@@ -25,37 +25,37 @@ public class GameModel {
 		}
 	}
 
-	public ArrayList<Point> getPoints() {
+	public synchronized ArrayList<Point> getPoints() {
 		return gameState.getPoints();
 	}
 
-	public ArrayList<Point> getPointsNeededToCheck() {
+	public synchronized ArrayList<Point> getPointsNeededToCheck() {
 		return gameState.getPointsNeededToCheck();
 	}
 
-	public ArrayList<Point> getNextPointsAlive() {
+	public synchronized ArrayList<Point> getNextPointsAlive() {
 		return gameState.getNextPointsAlive();
 	}
 
-	public void addNewPoint(Point alivePoint) {
+	public synchronized void addNewPoint(Point alivePoint) {
 		this.gameState.addNewPoint(alivePoint);
 	}
 	
-	public void setNextStatus() {
+	public synchronized void setNextStatus() {
 		this.steps++;
 		this.gameState.calculateNextStep();
 	}
 	
-	public void clearPoints() {
+	public synchronized void clearPoints() {
 		this.steps = 0;
 		this.gameState.clearPoints();
 	}
 	
-	public void deletePoint(Point pointTodelete) {
+	public synchronized void deletePoint(Point pointTodelete) {
 		this.gameState.deletePoint(pointTodelete);
 	}
 
-	public int getSteps() {
+	public synchronized int getSteps() {
 		return steps;
 	}
 
