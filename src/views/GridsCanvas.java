@@ -9,7 +9,6 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +37,7 @@ public class GridsCanvas extends JPanel {
 	// flags para controlar el comportamiento del grid
 	private boolean paintNextPointsAlive = true;
 	private boolean paintNextPointsNeededToCheck = true;
+	private boolean paintLines = true;
 	private boolean setNewPoints = true;
 	private boolean isChangeSize = true;
 	
@@ -170,7 +170,8 @@ public class GridsCanvas extends JPanel {
 		this.rows = (double) this.height / this.rowHt;
 		this.cols = (double) this.width / this.rowWid;
 
-		paintLines(g);
+		if(paintLines)
+			paintLines(g);
 
 		if (paintNextPointsNeededToCheck)
 			paintRectangles(g, this.pointsNeededToCheck, Color.green);
@@ -255,6 +256,11 @@ public class GridsCanvas extends JPanel {
 
 	public void setPaintNextPointsAlive(boolean paintNextPointsAlive) {
 		this.paintNextPointsAlive = paintNextPointsAlive;
+		this.repaint();
+	}
+
+	public void setPaintLines(boolean paintLines) {
+		this.paintLines = paintLines;
 		this.repaint();
 	}
 

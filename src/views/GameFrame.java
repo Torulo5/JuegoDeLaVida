@@ -87,6 +87,17 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 		chckbxNextpoints.setSelected(true);
 		mnVisualizacion.add(chckbxNextpoints);
 		
+		JCheckBox chckbxLines = new JCheckBox("Lines");
+		chckbxLines.addActionListener ( new ActionListener() {
+		      public void actionPerformed(ActionEvent actionEvent) {
+		          AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
+		          boolean selected = abstractButton.getModel().isSelected();
+		          grindCanvas.setPaintLines(selected);
+		        }
+		});
+		chckbxLines.setSelected(true);
+		mnVisualizacion.add(chckbxLines);
+		
 		JCheckBox chckbxNuevospuntos = new JCheckBox("NuevosPuntos");
 		chckbxNuevospuntos.addActionListener ( new ActionListener() {
 		      public void actionPerformed(ActionEvent actionEvent) {
