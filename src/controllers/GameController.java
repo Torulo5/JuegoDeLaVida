@@ -17,24 +17,44 @@ public class GameController {
 	private List<GameModel> gModelArray = null; 
 	private List<NextStateEvent> nextStatelisteners = null;
 	private Timer timer = null;
+	private int timerRate = 1000;
+	private boolean timerStatus = false;
 
 	public GameController() {
 		super();
 		this.gModelArray = new ArrayList<GameModel>();
-		this.nextStatelisteners = new ArrayList<NextStateEvent>();
-		this.timer = new Timer("GameTurnTImer");
-		
-		TimerTask timerTask = new TimerTask() {
-
-            @Override
-            public void run() {
-                nextTurn();
-            }
-        };
-
-        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+		this.nextStatelisteners = new ArrayList<NextStateEvent>();	
 	}
 	
+	public void setTimerState(boolean state) {
+		if(state && !timerStatus) {
+			this.timer = new Timer("GameTurnTImer");
+			TimerTask timerTask = new TimerTask() {
+	            @Override
+	            public void run() {
+	                nextTurn();
+	            }
+	        };
+			timer.scheduleAtFixedRate(timerTask, 0, timerRate);
+			this.timerStatus = true;
+		} else if(timerStatus) {
+			this.timer.cancel();
+			this.timer.purge();
+			this.timerStatus = false;
+		}
+	}
+	
+	public void setTimerRate(int timerRate) {
+		this.timerRate = timerRate;
+	}
+	
+	public void resetTiemer() {
+		if(this.timerStatus) {
+			setTimerState(false);
+			setTimerState(true);
+		}
+	}
+
 	public void saveAlivePoint(Point alivePoint) {
 		int index = 0;
 		for (GameModel gModel : this.gModelArray) {

@@ -26,6 +26,10 @@ import javax.swing.JButton;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 
@@ -132,12 +136,26 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 		chckbxmntmNewCheckItem.addItemListener( new ItemListener() {
 	        public void itemStateChanged(ItemEvent e) {
 	        	JCheckBoxMenuItem aux = (JCheckBoxMenuItem) e.getItem();
-	            System.out.println(aux.getState());
+	        	gController.setTimerState(aux.getState());
 	        }
 	    });
 		mnTurnos.add(chckbxmntmNewCheckItem);
 		
 		JSlider slider = new JSlider();
+		slider.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				gController.resetTiemer();
+			}
+		});
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				gController.setTimerRate(slider.getValue());
+			}
+		});
+		slider.setMinimum(10);
+		slider.setMaximum(2000);
+		slider.setValue(1000);
 		mnTurnos.add(slider);
 		
 		this.addWindowListener(new WindowAdapter() {
