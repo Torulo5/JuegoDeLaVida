@@ -19,8 +19,13 @@ import java.awt.Point;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
+import javax.swing.JSlider;
+import javax.swing.SwingConstants;
+import javax.swing.JCheckBoxMenuItem;
 
 public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 
@@ -118,6 +123,22 @@ public class GameFrame extends JFrame implements KeyListener, NextStateEvent {
 		});
 		btnResettablero.setFocusable(false);
 		menuBar.add(btnResettablero);
+		
+		JMenu mnTurnos = new JMenu("ConfigTurnos");
+		mnTurnos.setHorizontalAlignment(SwingConstants.CENTER);
+		menuBar.add(mnTurnos);
+		
+		JCheckBoxMenuItem chckbxmntmNewCheckItem = new JCheckBoxMenuItem("Automatico");
+		chckbxmntmNewCheckItem.addItemListener( new ItemListener() {
+	        public void itemStateChanged(ItemEvent e) {
+	        	JCheckBoxMenuItem aux = (JCheckBoxMenuItem) e.getItem();
+	            System.out.println(aux.getState());
+	        }
+	    });
+		mnTurnos.add(chckbxmntmNewCheckItem);
+		
+		JSlider slider = new JSlider();
+		mnTurnos.add(slider);
 		
 		this.addWindowListener(new WindowAdapter() {
 			@Override

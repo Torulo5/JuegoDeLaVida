@@ -22,13 +22,12 @@ public class GameController {
 		super();
 		this.gModelArray = new ArrayList<GameModel>();
 		this.nextStatelisteners = new ArrayList<NextStateEvent>();
-		this.timer = new Timer("GameTurmTImer");
+		this.timer = new Timer("GameTurnTImer");
 		
 		TimerTask timerTask = new TimerTask() {
 
             @Override
             public void run() {
-                System.out.println("prueba");
                 nextTurn();
             }
         };
