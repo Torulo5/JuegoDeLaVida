@@ -183,7 +183,7 @@ public class GridsCanvas extends JPanel {
 
 	}
 
-	private void paintLines(Graphics g) {
+	private synchronized void paintLines(Graphics g) {
 		int i;
 		Graphics2D g2d = (Graphics2D) g.create();
 
@@ -196,7 +196,7 @@ public class GridsCanvas extends JPanel {
 			g2d.drawLine(i * this.rowWid, 0, i * this.rowWid, this.height);
 	}
 
-	private void paintRectangles(Graphics g, ArrayList<Point> pointsAlive, Color color) {
+	private synchronized void paintRectangles(Graphics g, ArrayList<Point> pointsAlive, Color color) {
 
 		int strokeSpacer = 1;
 		if (this.stroke != 1)
@@ -216,7 +216,7 @@ public class GridsCanvas extends JPanel {
 		}
 	}
 
-	private void paintOvals(Graphics g, ArrayList<Point> pointsAlive, Color color) {
+	private synchronized void paintOvals(Graphics g, ArrayList<Point> pointsAlive, Color color) {
 
 		for (Point point : pointsAlive) {
 			if (DEBUG) {
@@ -233,7 +233,7 @@ public class GridsCanvas extends JPanel {
 		}
 	}
 
-	public void resetArray(String array, Map<String, List<Point>> newState) {
+	public synchronized void resetArray(String array, Map<String, List<Point>> newState) {
 		List<Point> auxArray = null;
 		switch (array) {
 			case "ALIVE":
@@ -254,17 +254,17 @@ public class GridsCanvas extends JPanel {
 		}
 	}
 
-	public void setPaintNextPointsAlive(boolean paintNextPointsAlive) {
+	public synchronized void setPaintNextPointsAlive(boolean paintNextPointsAlive) {
 		this.paintNextPointsAlive = paintNextPointsAlive;
 		this.repaint();
 	}
 
-	public void setPaintLines(boolean paintLines) {
+	public synchronized void setPaintLines(boolean paintLines) {
 		this.paintLines = paintLines;
 		this.repaint();
 	}
 
-	public void setPaintNextPointsNeededToCheck(boolean paintNextPointsNeededToCheck) {
+	public synchronized void setPaintNextPointsNeededToCheck(boolean paintNextPointsNeededToCheck) {
 		this.paintNextPointsNeededToCheck = paintNextPointsNeededToCheck;
 		this.repaint();
 	}
